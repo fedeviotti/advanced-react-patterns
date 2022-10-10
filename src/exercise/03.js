@@ -5,6 +5,7 @@ import * as React from 'react'
 import {Switch} from '../switch'
 
 const ToggleContext = React.createContext();
+ToggleContext.displayName = 'ToggleContext';
 // 📜 https://reactjs.org/docs/context.html#reactcreatecontext
 
 function Toggle({children}) {
