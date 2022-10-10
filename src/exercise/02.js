@@ -9,7 +9,10 @@ function Toggle({children}) {
   const toggle = () => setOn(!on)
 
   return React.Children.map(children, child => {
-    return React.cloneElement(child, {on, toggle})
+    if (allowedTypes.includes(child.type)) {
+      return React.cloneElement(child, {on, toggle})
+    }
+    return child;
   })
 
   // 📜 https://reactjs.org/docs/react-api.html#reactchildren
@@ -20,13 +23,20 @@ const ToggleOn = ({on, children}) => on ? children : null;
 const ToggleOff = ({on, children}) => on ? null : children;
 const ToggleButton = ({on, toggle}) => <Switch on={on} onClick={toggle} />
 
+// custom component won't work inside the compound component because of the type check
+const MyToggleButton = ({on}) => on ? 'on' : 'off';
+
+const allowedTypes = [ToggleOn, ToggleOff, ToggleButton];
+
 function App() {
   return (
     <div>
       <Toggle>
         <ToggleOn>The button is on</ToggleOn>
         <ToggleOff>The button is off</ToggleOff>
+        <span>Hello</span>
         <ToggleButton />
+        <MyToggleButton />
       </Toggle>
     </div>
   )
